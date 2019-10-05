@@ -32,7 +32,7 @@ public class ControladorEmpleados extends HttpServlet {
 	//Declaramos el metodo init donde arrancará la aplicación
 	@Override
 	public void init() throws ServletException {
-		// TODO Auto-generated method stub
+		// Instancio la clase Modelo Empleados en modeloEmpleados
 		super.init();
 		
 		try {
@@ -46,14 +46,12 @@ public class ControladorEmpleados extends HttpServlet {
 	}
 
 
-
-
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		// Reacibiré las peticiones de los formularios a traves del metodo doGet
 					
 		//Recibir Formulario de registro
 		String accion = request.getParameter("orden");
@@ -78,7 +76,6 @@ public class ControladorEmpleados extends HttpServlet {
 			try {
 				cargarEmpleados(request, response);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -86,15 +83,13 @@ public class ControladorEmpleados extends HttpServlet {
 			try {
 				editarEmpleados(request, response);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
 		case "eliminar":
 			try {
 				eliminarEmpleado(request, response);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
+			} catch (Exception e) {				
 				e.printStackTrace();
 			}
 			break;
@@ -110,13 +105,13 @@ public class ControladorEmpleados extends HttpServlet {
 
 
 	private void eliminarEmpleado(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
+		// Metodo para recibir la peticion de eliminar
 		
 		//Obtengo el parametro
-		String id_card = request.getParameter("id_card1");
+		String idCard = request.getParameter("id_card1");
 		
 		//"Eliminamos" el registro
-		modeloEmpleados.eliminar_registro(id_card);
+		modeloEmpleados.eliminarRegistro(idCard);
 		
 		//Refrescamos la pagina
 		obtenerEmpleados(request, response);
@@ -126,31 +121,31 @@ public class ControladorEmpleados extends HttpServlet {
 
 
 	private void editarEmpleados(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
+		// Metodo para recibir los parametros y enviarlos al metodo de la tabla
 		
 		//Recibir los datos del formulario
-		String id_card    = request.getParameter("id_card");
-		String first_name = request.getParameter("nombre");
-		String last_name  = request.getParameter("apellido");
-		String gender     = request.getParameter("genero");
+		String idCard    = request.getParameter("id_card");
+		String firstName = request.getParameter("nombre");
+		String lastName  = request.getParameter("apellido");
+		String gender    = request.getParameter("genero");
 		/**
 		 * Para poder capturar el input fecha debemos utilizar la Clase SimpleDateFormat
 		 */
-		SimpleDateFormat formato_fecha = new SimpleDateFormat("yyyy-MM-dd");
-		Date birth_date = null;
+		SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+		Date birthDate = null;
 		
 		try {
-			birth_date = formato_fecha.parse(request.getParameter("fecha"));
+			birthDate = formatoFecha.parse(request.getParameter("fecha"));
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		
 		
 		//Crear Objeto o instanciar Empleados
-		Empleados empleado_editar = new Empleados(id_card, first_name, last_name, gender, birth_date, birth_date);
+		Empleados empleadoEditar = new Empleados(idCard, firstName, lastName, gender, birthDate);
 		
 		//Actualizar la base de datos con la informacion recibida
-		modeloEmpleados.editar_empleado(empleado_editar);
+		modeloEmpleados.editarEmpleado(empleadoEditar);
 		//Regresar a la lista de empleados con la informacion actualizada
 		obtenerEmpleados(request, response);
 		
@@ -160,14 +155,12 @@ public class ControladorEmpleados extends HttpServlet {
 
 
 	private void cargarEmpleados(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
-		
 		// Leer el id_card de la url		
-		String id_card = request.getParameter("id_card1");
+		String idCard = request.getParameter("id_card1");
 		
 		
 		// Enviar los datos obtenidos de la url(id_card) al Modelo
-		Empleados unEmpleado = modeloEmpleados.getEmpleado(id_card);
+		Empleados unEmpleado = modeloEmpleados.getEmpleado(idCard);
 		
 		// Colocar el atributo correspondiente al id_card
 		request.setAttribute("CARNET_EMPLEADO", unEmpleado);
@@ -183,33 +176,32 @@ public class ControladorEmpleados extends HttpServlet {
 
 
 	private void registrarEmpleados(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
+		// Metodo para recibir el formulario de registro
 		
 		//Recibimos la informacion del form
-		String id_card    = request.getParameter("id_card");
-		String first_name = request.getParameter("nombre");
-		String last_name  = request.getParameter("apellido");
+		String idCard    = request.getParameter("id_card");
+		String firstName = request.getParameter("nombre");
+		String lastName  = request.getParameter("apellido");
 		String gender     = request.getParameter("gender");
 		/**
 		 * Para poder capturar el input fecha debemos utilizar la Clase SimpleDateFormat
 		 */
-		SimpleDateFormat formato_fecha = new SimpleDateFormat("yyyy-MM-dd");
-		Date birth_date = null;
+		SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+		Date birthDate = null;
 		
 		try {
-			birth_date = formato_fecha.parse(request.getParameter("fecha"));
+			birthDate = formatoFecha.parse(request.getParameter("fecha"));
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		
 		//Creamos objeto o instanciamos Empleados sin id_emp
-		Empleados nuevo_empleado = new Empleados(id_card, first_name, last_name, gender, birth_date, birth_date);
+		Empleados nuevoEmpleado = new Empleados(idCard, firstName, lastName, gender, birthDate);
 		
 		//Enviar el objeto al modelo y registrarlo
 		try {
-			modeloEmpleados.registrar_nuevo_empleado(nuevo_empleado);
+			modeloEmpleados.registrarNuevoEmpleado(nuevoEmpleado);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		
@@ -221,7 +213,6 @@ public class ControladorEmpleados extends HttpServlet {
 
 
 	private void obtenerEmpleados(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
 		//Obtengo la lista de empleados desde el modelo
 		List<Empleados> empleados;
 		

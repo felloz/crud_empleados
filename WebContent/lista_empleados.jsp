@@ -3,7 +3,7 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="ISO-8859-1">
 <title>Empleados</title>
@@ -62,6 +62,7 @@
       a {
         color: #585858;
       }
+      #author{text-align:left}
     </style>
 
 </head>
@@ -77,12 +78,13 @@ notie.alert({ text: 'Info!' })
 			<button type="button" class="btn btn-primary" data-toggle="modal"
 				data-target="#ModalRegForm">Registrar</button>
 		</div>
-		<p align="left">
-			<b>Crud Por Luis Serrano</b>
+		<p id="author">
+			<strong>Crud Por Luis Serrano</strong>
 		</p>
 	</div>
 	<div>
 		<table class="table">
+			<caption>Lista de Empleados</caption>
 			<thead class="thead-dark">
 				<tr>
 					<th scope="col">Nro Carné</th>
@@ -95,34 +97,28 @@ notie.alert({ text: 'Info!' })
 				</tr>
 			</thead>
 			<tbody id="ttbody">
-
-				<%  
-   		/*Edad emp_edad = new Edad(); 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");*/
-		
-		
-		%>
+				
 				<c:forEach var="tempEmp" items="${LISTAEMPLEADOS}">
 				
 				<!-- Link Para cada Empleado con su campo clave -->
 				
 				<c:url var = "linkTemp" value = "ControladorEmpleados">				
 					<c:param name = "orden" value="cargar"></c:param>
-					<c:param name = "id_card1" value = "${tempEmp.id_card}"></c:param>												
+					<c:param name = "id_card1" value = "${tempEmp.idCard}"></c:param>												
 				</c:url>
 				<!-- Link para eliminar mis registros -->
 				<c:url var = "linkElim" value = "ControladorEmpleados">				
 					<c:param name = "orden" value="eliminar"></c:param>
-					<c:param name = "id_card1" value = "${tempEmp.id_card}"></c:param>												
+					<c:param name = "id_card1" value = "${tempEmp.idCard}"></c:param>												
 				</c:url>
 				
 					<tr class="menu">
-						<td scope="row">${tempEmp.id_card}</td>
-						<td>${tempEmp.first_name}</td>
-						<td>${tempEmp.last_name}</td>
+						<td>${tempEmp.idCard}</td>
+						<td>${tempEmp.firstName}</td>
+						<td>${tempEmp.lastName}</td>
 						<td>${tempEmp.gender}</td>
-						<td id="edadd">${tempEmp.birth_date}</td>
-						<td>${tempEmp.hire_date}</td>
+						<td id="edadd">${tempEmp.birthDate}</td>
+						<td>${tempEmp.hireDate}</td>
 						<td><div class="col text-center">							
 								<a href="${linkTemp}" class="btn btn-info">Editar</a>
 								&nbsp;
@@ -353,10 +349,13 @@ notie.alert({ text: 'Info!' })
           }
         })
       }
-    </script>
-    <script>
-    
- 
+      //Desactivo el click derecho
+      document.oncontextmenu = function(){return false}
+      $(function(){
+    	    $(document).bind("contextmenu",function(e){
+    	        return false;
+    	    });
+    	});
     </script>
 </body>
 </html>

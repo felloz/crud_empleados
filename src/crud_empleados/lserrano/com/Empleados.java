@@ -4,87 +4,86 @@ import java.util.Date;
 
 public class Empleados {
 	
-	private int emp_no;
-	private String first_name;
-	private String last_name;
+	private int empNo;
+	private String firstName;
+	private String lastName;
 	private String gender;
-	private Date hire_date;
-	private Date birth_date;
-	private String id_card;
+	private Date hireDate;
+	private Date birthDate;
+	private String idCard;
 	
 	
 	
-	public Empleados(int emp_no, String id_card, String first_name, String last_name, String gender, Date hire_date, Date birth_date) {
-		//super();
-		this.emp_no     = emp_no;
-		this.id_card    = id_card;
-		this.first_name = first_name;
-		this.last_name  = last_name;
+	public Empleados(int empNo, String idCard, String firstName, String lastName, String gender, Date hireDate, Date birthDate) {
+
+		this.empNo     = empNo;
+		this.idCard    = idCard;
+		this.firstName = firstName;
+		this.lastName  = lastName;
 		this.gender     = gender;
-		this.hire_date  = hire_date;
-		this.birth_date = birth_date;		
+		this.hireDate  = hireDate;
+		this.birthDate = birthDate;		
 	}
 	
 	
 	
-	public Empleados(String id_card, String first_name, String last_name, String gender, Date hire_date, Date birth_date) {
-		//super();
-		this.id_card = id_card;
-		this.first_name = first_name;
-		this.last_name = last_name;
+	public Empleados(String idCard, String firstName, String lastName, String gender, Date birthDate) {
+
+		this.idCard = idCard;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.gender = gender;
-		this.birth_date = birth_date;
-		this.birth_date = birth_date;
+		this.birthDate = birthDate;
 	}
 	
 	
 
 
 
-	public String getId_card() {
-		return id_card;
+	public String getIdCard() {
+		return idCard;
 	}
 
 
 
-	public void setId_card(String id_card) {
-		this.id_card = id_card;
+	public void setIdCard(String idCard) {
+		this.idCard = idCard;
 	}
 
 
 
-	public int getEmp_no() {
-		return emp_no;
+	public int getEmpNo() {
+		return empNo;
 	}
 
 
 
-	public void setEmp_no(int emp_no) {
-		this.emp_no = emp_no;
+	public void setEmpNo(int empNo) {
+		this.empNo = empNo;
 	}
 
 
 
-	public String getFirst_name() {
-		return first_name;
+	public String getFirstName() {
+		return firstName;
 	}
 
 
 
-	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 
 
-	public String getLast_name() {
-		return last_name;
+	public String getLastName() {
+		return lastName;
 	}
 
 
 
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 
@@ -101,28 +100,28 @@ public class Empleados {
 
 
 
-	public Date getHire_date() {
-		return hire_date;
+	public Date getHireDate() {
+		return hireDate;
 	}
 	
 
-	public void setHire_date(Date hire_date) {
-		this.hire_date = hire_date;
+	public void setHireDate(Date hireDate) {
+		this.hireDate = hireDate;
 	}
 	
-	public Date getBirth_date() {
-		return birth_date;
+	public Date getBirthDate() {
+		return birthDate;
 	}
 	
-	public void setBirth_date(Date birth_date) {
-		this.birth_date = birth_date;
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
 	}
 	
 	
 	@Override
 	public String toString() {
-		return "Empleados [emp_no=" + emp_no + ", first_name=" + first_name + ", last_name=" + last_name + ", gender="
-				+ gender + ", hire_date=" + hire_date + " , birth_date=" + birth_date + "  ]";
+		return "Empleados [empNo=" + empNo + ", firstName=" + firstName + ", lastName=" + lastName + ", gender="
+				+ gender + ", hireDate=" + hireDate + " , birthDate=" + birthDate + "  ]";
 	}
 
 

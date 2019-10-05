@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.Date;
 
+import javax.servlet.ServletException;
 import javax.sql.*;
 
 public class ModeloEmpleados {
@@ -39,19 +40,18 @@ public class ModeloEmpleados {
 		
 		//Ejecuto la query
 		miResultset = miStatement.executeQuery(query);
-		//Recorro todo el array generado por la consultt
 		while(miResultset.next()) {
 			
-			int emp_no        = miResultset.getInt("id_emp");
-			String id_card    = miResultset.getString("id_card");
-			String first_name = miResultset.getString("first_name");
-			String last_name  = miResultset.getString("last_name");
+			int empNo        = miResultset.getInt("id_emp");
+			String idCard    = miResultset.getString("id_card");
+			String firstName = miResultset.getString("first_name");
+			String lastName  = miResultset.getString("last_name");
 			String gender  	  = miResultset.getString("gender");
-			Date hire_date    = miResultset.getDate("hire_date");
-			Date birth_date   = miResultset.getDate("birth_date");
+			Date hireDate    = miResultset.getDate("hire_date");
+			Date birthDate   = miResultset.getDate("birth_date");
 			
  			
-			Empleados empleadoi = new Empleados(emp_no, id_card, first_name, last_name, gender, hire_date, birth_date);
+			Empleados empleadoi = new Empleados(empNo, idCard, firstName, lastName, gender, hireDate, birthDate);
 			
 			empleados.add(empleadoi);
 			
@@ -59,15 +59,17 @@ public class ModeloEmpleados {
 		
 		return empleados;
 		}finally {
-			miStatement.close();
-			miConexion.close();
+			if(miStatement != null) {
+				miStatement.close();
+				miConexion.close();
+			}
 		}
 		
 		
 	}
 
-	public void registrar_nuevo_empleado(Empleados nuevo_empleado) throws Exception {
-		// TODO Auto-generated method stub
+	public void registrarNuevoEmpleado(Empleados nuevoEmpleado) throws Exception {
+		// Registro un nuevo empleado
 		//Creamos la conexión
 		Connection miConexion = null;
 		PreparedStatement miStatement = null;
@@ -79,27 +81,29 @@ public class ModeloEmpleados {
 	
 			miStatement = miConexion.prepareStatement(query);
 			//Establecer parametros para los empleados
-			miStatement.setString(1, nuevo_empleado.getId_card());
-			miStatement.setString(2, nuevo_empleado.getFirst_name());
-			miStatement.setString(3, nuevo_empleado.getLast_name());
-			miStatement.setString(4, nuevo_empleado.getGender());
-			java.util.Date utilDate = nuevo_empleado.getBirth_date();
+			miStatement.setString(1, nuevoEmpleado.getIdCard());
+			miStatement.setString(2, nuevoEmpleado.getFirstName());
+			miStatement.setString(3, nuevoEmpleado.getLastName());
+			miStatement.setString(4, nuevoEmpleado.getGender());
+			java.util.Date utilDate = nuevoEmpleado.getBirthDate();
 			java.sql.Date fechaConvertida = new java.sql.Date(utilDate.getTime());
 			miStatement.setDate(5, fechaConvertida);
 			//Ejecutar el Query
 			miStatement.execute();
 			
 		}finally{
-			miStatement.close();
-			miConexion.close();
+			if(miStatement != null) {
+				miStatement.close();
+				miConexion.close();
+			}
 		}
 		
 		
 		
 	}
 
-	public Empleados getEmpleado(String id_card) throws Exception {
-		// TODO Auto-generated method stub
+	public Empleados getEmpleado(String idCard) throws Exception {
+		// Obtengo el empleado a traves de su id
 		//Declaracion de variables
 		Empleados unEmpleado = null;
 		
@@ -109,7 +113,7 @@ public class ModeloEmpleados {
 		
 		ResultSet miResultset = null;
 		
-		String nro_carnet = id_card;
+		String nroCarnet = idCard;
 		
 		try {
 			//Crea la conexion con la base de datos		
@@ -122,7 +126,7 @@ public class ModeloEmpleados {
 			miStatement = miConexion.prepareStatement(query);
 			
 			//Establece parametros
-			miStatement.setString(1, nro_carnet);		
+			miStatement.setString(1, nroCarnet);		
 			
 			//Ejecuta la Query
 			miResultset = miStatement.executeQuery();
@@ -131,24 +135,25 @@ public class ModeloEmpleados {
 			if(miResultset.next()) {
 				
 				
-				String id_card1    = miResultset.getString("id_card");
-				String first_name = miResultset.getString("first_name");
-				String last_name  = miResultset.getString("last_name");
+				String idCard1    = miResultset.getString("id_card");
+				String firstName = miResultset.getString("first_name");
+				String lastName  = miResultset.getString("last_name");
 				String gender  	  = miResultset.getString("gender");
-				Date hire_date    = miResultset.getDate("hire_date");
-				Date birth_date   = miResultset.getDate("birth_date");
+				Date birthDate   = miResultset.getDate("birth_date");
 				
 	 			
-				unEmpleado = new Empleados(id_card1, first_name, last_name, gender, hire_date, birth_date);
+				unEmpleado = new Empleados(idCard1, firstName, lastName, gender, birthDate);
 				
 			}else {
-				throw new Exception("No se encontró el empleado con el Nro de Carné: " + nro_carnet);
+				throw new Exception("No se encontró el empleado con el Nro de Carné: " + nroCarnet);
 			}
 			
 		} finally{
-			// TODO Auto-generated catch block
-			miStatement.close();
-			miConexion.close();
+			// Cierro las conexiones
+			if(miStatement != null) {
+				miStatement.close();
+				miConexion.close();
+			}
 		}
 		
 		
@@ -156,8 +161,8 @@ public class ModeloEmpleados {
 		return unEmpleado;
 	}
 
-	public void editar_empleado(Empleados empleado_editar) throws Exception {
-		// TODO Auto-generated method stub
+	public void editarEmpleado(Empleados empleadoEditar) throws Exception {
+		// Metodo para editar los empleados
 		
 		//Creamos la conexion
 		
@@ -170,24 +175,27 @@ public class ModeloEmpleados {
 			String query = "UPDATE empleados SET first_name = ?, last_name = ?, gender = ?, birth_date = ? WHERE id_card = ?";
 			miStatement = miConexion.prepareStatement(query);
 			
-			miStatement.setString(1, empleado_editar.getFirst_name());
-			miStatement.setString(2, empleado_editar.getLast_name());
-			miStatement.setString(3, empleado_editar.getGender());
-			java.util.Date utilDate = empleado_editar.getBirth_date();
+			miStatement.setString(1, empleadoEditar.getFirstName());
+			miStatement.setString(2, empleadoEditar.getLastName());
+			miStatement.setString(3, empleadoEditar.getGender());
+			java.util.Date utilDate = empleadoEditar.getBirthDate();
 			java.sql.Date fechaConvertida = new java.sql.Date(utilDate.getTime());
 			miStatement.setDate(4, fechaConvertida);
-			miStatement.setString(5, empleado_editar.getId_card());
+			miStatement.setString(5, empleadoEditar.getIdCard());
 			miStatement.execute();
-			
+		}catch (Exception e){
+				throw new ServletException(e);
 		}finally{
-			miStatement.close();
-			miConexion.close();			
+			if(miStatement != null) {
+				miStatement.close();
+				miConexion.close();
+			}		
 		}
 		
 	}
 
-	public void eliminar_registro(String id_card) throws Exception {
-		// TODO Auto-generated method stub
+	public void eliminarRegistro(String idCard) throws Exception {
+		// Metodo para eliminar empleados, realmente no elimina, por seguridad solo cambia su estatus
 		
 		//Inicializamos las variables
 		Connection miConexion = null;
@@ -199,11 +207,13 @@ public class ModeloEmpleados {
 			miStatement = miConexion.prepareStatement(query);
 			
 			miStatement.setString(1, "0");
-			miStatement.setString(2, id_card);
+			miStatement.setString(2, idCard);
 			miStatement.execute();
 		}finally{
-			miStatement.close();
-			miConexion.close();
+			if(miStatement != null) {
+				miStatement.close();
+				miConexion.close();
+			}
 		}
 		
 	}
