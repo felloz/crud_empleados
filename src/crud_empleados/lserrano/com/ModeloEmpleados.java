@@ -1,11 +1,16 @@
 package crud_empleados.lserrano.com;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.time.*;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.sql.*;
+
 
 public class ModeloEmpleados {
 	
@@ -42,16 +47,40 @@ public class ModeloEmpleados {
 		miResultset = miStatement.executeQuery(query);
 		while(miResultset.next()) {
 			
-			int empNo        = miResultset.getInt("id_emp");
 			String idCard    = miResultset.getString("id_card");
 			String firstName = miResultset.getString("first_name");
 			String lastName  = miResultset.getString("last_name");
 			String gender  	  = miResultset.getString("gender");
 			Date hireDate    = miResultset.getDate("hire_date");
-			Date birthDate   = miResultset.getDate("birth_date");
+			Date birthDate  = miResultset.getDate("birth_date");
+						
+			//Aplico formato a la fecha para poder convertirla a String
+			SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
+			//Declaro la fecha como tipo String
+			String finalDate = formatter.format(birthDate);
+			//Establezco un formato para la fecha a recibir(si, por segunda vez, así nos aseguramos que siempre reciba ese formato)
+			DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDate fechaNac2 = java.time.LocalDate.parse(finalDate, fmt);
+			LocalDate ahora = java.time.LocalDate.now();
+			 
+			Period periodo = Period.between(fechaNac2, ahora);
+			/*
+			 * Para obtener Años - Mes - día
+			 * Años: getYears()
+			 * Mes:  getMonths()
+			 * Días: getDays()
+			 */
 			
- 			
-			Empleados empleadoi = new Empleados(empNo, idCard, firstName, lastName, gender, hireDate, birthDate);
+			//En caso de que el empleado registrado sea un bebe menor de un año *_* <3_<3 O_O
+			//Queda pendiente validar a nivel de front que no permita registrar personas menores de 18 años
+			int edadInt = periodo.getYears();
+			String edadString = Integer.toString(edadInt);
+			if(edadInt < 1) {
+				edadString = periodo.getMonths() + "M";
+			}
+			
+			
+			Empleados empleadoi = new Empleados(idCard, firstName, lastName, gender, hireDate, birthDate, edadString);
 			
 			empleados.add(empleadoi);
 			
@@ -67,6 +96,7 @@ public class ModeloEmpleados {
 		
 		
 	}
+
 
 	public void registrarNuevoEmpleado(Empleados nuevoEmpleado) throws Exception {
 		// Registro un nuevo empleado

@@ -8,67 +8,73 @@
 <meta charset="ISO-8859-1">
 <title>Empleados</title>
 <link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
-	<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
-	 <style>
-    /* override styles here */
-    .notie-container {
-      box-shadow: none;
-    }
- 
-	div {
-		text-align: center;
-	}
-	
-	table {
-		margin: 0 auto;
-	}
-	
-	table td {
-		text-align: center;
-	}
-	</style>
-	<style>
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Roboto Mono', monospace;
-        background-color: #E8E8E8;
-      }
-      .div-ext {
-        height: 100vh;
-        width: 100%;
-        display: table;
-        text-align: center;
-      }
-      .div-int {
-        display: table-cell;
-        vertical-align: middle;
-      }
-      button {
-        cursor: pointer;
-        font-size: 18px;
-        border: 2px solid #000;
-        border-radius: 2px;
-        background-color: transparent;
-        outline: 0;
-        margin: 2px;
-        margin-top: 4px;
-        padding: 5px;
-      }
-      a {
-        color: #585858;
-      }
-      #author{text-align:left}
-    </style>
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css"
+	href="https://unpkg.com/notie/dist/notie.min.css">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Mono"
+	rel="stylesheet">
+<style>
+/* override styles here */
+.notie-container {
+	box-shadow: none;
+}
+
+div {
+	text-align: center;
+}
+
+table {
+	margin: 0 auto;
+}
+
+table td {
+	text-align: center;
+}
+</style>
+<style>
+body {
+	margin: 0;
+	padding: 0;
+	font-family: 'Roboto Mono', monospace;
+	background-color: #E8E8E8;
+}
+
+.div-ext {
+	height: 100vh;
+	width: 100%;
+	display: table;
+	text-align: center;
+}
+
+.div-int {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+button {
+	cursor: pointer;
+	font-size: 18px;
+	border: 2px solid #000;
+	border-radius: 2px;
+	background-color: transparent;
+	outline: 0;
+	margin: 2px;
+	margin-top: 4px;
+	padding: 5px;
+}
+
+a {
+	color: #585858;
+}
+
+#author {
+	text-align: left
+}
+</style>
 
 </head>
 <body>
-<script>
-notie.alert({ text: 'Info!' })
+	<script>
 </script>
 	<div class="card">
 		<h5 class="card-header">Crud Empleados</h5>
@@ -91,39 +97,38 @@ notie.alert({ text: 'Info!' })
 					<th scope="col">Primer Nombre</th>
 					<th scope="col">Primer Apellido</th>
 					<th scope="col">Género</th>
-					<th scope="col">Fecha Nac</th>
+					<th scope="col">Edad</th>
 					<th scope="col">Fecha Registro</th>
 					<th scope="col">Opciones</th>
 				</tr>
 			</thead>
 			<tbody id="ttbody">
-				
+
 				<c:forEach var="tempEmp" items="${LISTAEMPLEADOS}">
-				
-				<!-- Link Para cada Empleado con su campo clave -->
-				
-				<c:url var = "linkTemp" value = "ControladorEmpleados">				
-					<c:param name = "orden" value="cargar"></c:param>
-					<c:param name = "id_card1" value = "${tempEmp.idCard}"></c:param>												
-				</c:url>
-				<!-- Link para eliminar mis registros -->
-				<c:url var = "linkElim" value = "ControladorEmpleados">				
-					<c:param name = "orden" value="eliminar"></c:param>
-					<c:param name = "id_card1" value = "${tempEmp.idCard}"></c:param>												
-				</c:url>
-				
+
+					<!-- Link Para cada Empleado con su campo clave -->
+
+					<c:url var="linkTemp" value="ControladorEmpleados">
+						<c:param name="orden" value="cargar"></c:param>
+						<c:param name="id_card1" value="${tempEmp.idCard}"></c:param>
+					</c:url>
+					<!-- Link para eliminar mis registros -->
+					<c:url var="linkElim" value="ControladorEmpleados">
+						<c:param name="orden" value="eliminar"></c:param>
+						<c:param name="id_card1" value="${tempEmp.idCard}"></c:param>
+					</c:url>
+
 					<tr class="menu">
 						<td>${tempEmp.idCard}</td>
 						<td>${tempEmp.firstName}</td>
 						<td>${tempEmp.lastName}</td>
 						<td>${tempEmp.gender}</td>
-						<td id="edadd">${tempEmp.birthDate}</td>
+						<td>${tempEmp.finalDate}</td>
 						<td>${tempEmp.hireDate}</td>
-						<td><div class="col text-center">							
-								<a href="${linkTemp}" class="btn btn-info">Editar</a>
-								&nbsp;
-								<a type = "hidden" ></a>
-								<a class="btn btn-danger" id="hola" onclick="confirm('${linkElim}')">Eliminar</a>
+						<td><div class="col text-center">
+								<a href="${linkTemp}" class="btn btn-info">Editar</a> &nbsp; <a
+									type="hidden"></a> <a class="btn btn-danger" id="hola"
+									onclick="confirm('${linkElim}')">Eliminar</a>
 							</div></td>
 					</tr>
 
@@ -168,8 +173,9 @@ notie.alert({ text: 'Info!' })
 									<div class="form-group">
 										<label>Sexo:</label>
 										<div>
-											<select class="form-control" class="form-control input-lg"
+											<select class="form-control" class="form-control input-sm"
 												name="gender" id="exampleFormControlSelect1" required>
+												<option value="">Seleccione</option>
 												<option value="M">M</option>
 												<option value="F">F</option>
 												<option value="O">Otro</option>
@@ -185,8 +191,8 @@ notie.alert({ text: 'Info!' })
 									</div>
 									<div class="form-group">
 										<div>
-											<button type="submit" onclick=success() class="btn btn-success">
-												Registrar</button>
+											<button type="submit" onclick=success()
+												class="btn btn-success">Registrar</button>
 											<a href="#" data-dismiss="modal" class="btn btn-warning">Close</a>
 										</div>
 									</div>
@@ -205,18 +211,12 @@ notie.alert({ text: 'Info!' })
 	</div>
 
 	<script src="https://unpkg.com/notie"></script>
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-		crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-		crossorigin="anonymous"></script>
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-		crossorigin="anonymous"></script>
-	<script src="https://unpkg.com/notie"></script>	
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script src="https://unpkg.com/notie"></script>
 	<script>
 	
 	//Script para el boton cerrar modal
@@ -356,6 +356,8 @@ notie.alert({ text: 'Info!' })
     	        return false;
     	    });
     	});
+      
+	
     </script>
 </body>
 </html>

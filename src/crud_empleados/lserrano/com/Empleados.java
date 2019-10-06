@@ -1,5 +1,6 @@
 package crud_empleados.lserrano.com;
 
+
 import java.util.Date;
 
 public class Empleados {
@@ -11,18 +12,31 @@ public class Empleados {
 	private Date hireDate;
 	private Date birthDate;
 	private String idCard;
+	private String finalDate;
 	
 	
-	
-	public Empleados(int empNo, String idCard, String firstName, String lastName, String gender, Date hireDate, Date birthDate) {
+	public String getFinalDate() {
+		return finalDate;
+	}
 
-		this.empNo     = empNo;
+
+
+	public void setFinalDate(String finalDate) {
+		this.finalDate = finalDate;
+	}
+
+
+
+	public Empleados(String idCard, String firstName, String lastName, String gender, Date hireDate, Date birthDate, String finalDate) {
+
+		
 		this.idCard    = idCard;
 		this.firstName = firstName;
 		this.lastName  = lastName;
 		this.gender     = gender;
 		this.hireDate  = hireDate;
-		this.birthDate = birthDate;		
+		this.birthDate = birthDate;
+		this.finalDate = finalDate;
 	}
 	
 	

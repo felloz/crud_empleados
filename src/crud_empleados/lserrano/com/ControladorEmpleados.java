@@ -101,9 +101,6 @@ public class ControladorEmpleados extends HttpServlet {
 		
 	}
 	
-	
-
-
 	private void eliminarEmpleado(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// Metodo para recibir la peticion de eliminar
 		
