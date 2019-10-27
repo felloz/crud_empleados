@@ -27,6 +27,9 @@
 	href="https://unpkg.com/notie/dist/notie.min.css">
 <link href="https://fonts.googleapis.com/css?family=Roboto+Mono"
 	rel="stylesheet">
+	
+<!-- Fa fa Icons -->	
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">		
 <style>
 /* override styles here */
 .notie-container {
@@ -175,8 +178,12 @@ table td {
 							</div>
 
 							<div class="col-md-6 offset-md-4">
-								<button type="submit" class="btn btn-primary">Enviar</button>
-								<a class="btn btn-warning" href="ControladorEmpleados">Volver</a>
+								<button type="submit" title="Guardar" class="btn btn-primary">
+									<i class="fa fa-save" style="font-size:32px;color:white"></i>
+								</button>
+								<a class="btn btn-warning" href="ControladorEmpleados">
+									<i class="fa fa-arrow-right" title="Regresar" style="font-size:32px;color:white"></i>
+								</a>
 							</div>
 						</form>
 					</div>

@@ -13,6 +13,9 @@
 	href="https://unpkg.com/notie/dist/notie.min.css">
 <link href="https://fonts.googleapis.com/css?family=Roboto+Mono"
 	rel="stylesheet">
+	
+<!-- Fa fa Icons -->	
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">	
 <style>
 /* override styles here */
 .notie-container {
@@ -65,6 +68,11 @@ button {
 
 a {
 	color: #585858;
+}
+
+.link {
+	text-decoration: underline;
+	color:blue;
 }
 
 #author {
@@ -125,16 +133,15 @@ a {
 					</c:url>
 
 					<tr class="menu">
-						<td><a href="${linkDetalle}">${tempEmp.idCard}</a></td>
+						<td><a class = "link" href="${linkDetalle}">${tempEmp.idCard}</a></td>
 						<td>${tempEmp.firstName}</td>
 						<td>${tempEmp.lastName}</td>
 						<td>${tempEmp.gender}</td>
 						<td>${tempEmp.finalDate}</td>
 						<td>${tempEmp.hireDate}</td>
 						<td><div class="col text-center">
-								<a href="${linkTemp}" class="btn btn-info">Editar</a> &nbsp; <a
-									type="hidden"></a> <a class="btn btn-danger" id="hola"
-									onclick="confirm('${linkElim}')">Eliminar</a>
+								<a href="${linkTemp}" title="Clic para editar" class="btn btn-info"><i class="fa fa-edit"></i></a>
+								<a class="btn btn-danger" title="Clic para eliminar" id="hola"onclick="confirm('${linkElim}')"><i class="fa fa-trash" style="color:#f4f4f4"></i></a>
 							</div></td>
 					</tr>
 
@@ -150,13 +157,13 @@ a {
 							<div class="modal-body">
 
 								<h1>Empleado Nuevo</h1>
-								<form role="form" method="GET" action="ControladorEmpleados">
+								<form role="form" method="GET" action="ControladorEmpleados" onsubmit=success()>
 									<input type="hidden" name="orden" value="registrar"> <input
 										type="hidden" name="_token" id="cod_empleados" value="">
 									<div class="form-group">
 										<label>Nombre:</label>
 										<div>
-											<input type="text" class="form-control input-lg"
+											<input type="text" id = "name" class="form-control input-lg"
 												name="nombre" value="" placeholder="Ingrese Nombre" required>
 										</div>
 									</div>
@@ -197,7 +204,7 @@ a {
 									</div>
 									<div class="form-group">
 										<div>
-											<button type="submit" onclick=success()
+											<button type="submit"
 												class="btn btn-success">Registrar</button>
 											<a href="#" data-dismiss="modal" class="btn btn-warning">Close</a>
 										</div>
@@ -246,6 +253,10 @@ a {
       })
 
       function success () {
+    	
+    	let name;
+    	name = document.getElementById("name");
+    	console.log(name);
         notie.alert({ type: 1, text: 'Success!', time: 2 })
       }
 
@@ -356,7 +367,7 @@ a {
         })
       }
       //Desactivo el click derecho
-      document.oncontextmenu = function(){return false}
+      document.oncontextmenu = function(){return false;}
       $(function(){
     	    $(document).bind("contextmenu",function(e){
     	        return false;
