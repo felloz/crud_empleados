@@ -112,6 +112,12 @@ a {
 						<c:param name="orden" value="cargar"></c:param>
 						<c:param name="id_card1" value="${tempEmp.idCard}"></c:param>
 					</c:url>
+					
+					<!-- Link para detalles -->
+					<c:url var="linkDetalle" value="ControladorEmpleados">
+						<c:param name="orden" value="detalles"></c:param>
+						<c:param name="idCard" value="${tempEmp.idCard}"></c:param>
+					</c:url>
 					<!-- Link para eliminar mis registros -->
 					<c:url var="linkElim" value="ControladorEmpleados">
 						<c:param name="orden" value="eliminar"></c:param>
@@ -119,7 +125,7 @@ a {
 					</c:url>
 
 					<tr class="menu">
-						<td>${tempEmp.idCard}</td>
+						<td><a href="${linkDetalle}">${tempEmp.idCard}</a></td>
 						<td>${tempEmp.firstName}</td>
 						<td>${tempEmp.lastName}</td>
 						<td>${tempEmp.gender}</td>

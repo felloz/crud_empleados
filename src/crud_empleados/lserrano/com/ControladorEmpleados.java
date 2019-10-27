@@ -23,6 +23,7 @@ public class ControladorEmpleados extends HttpServlet {
 	
 	//Llamo la clase en un atributo
 	private ModeloEmpleados modeloEmpleados;
+	private ReadImp readImp;
 	
 	@Resource(name="jdbc/empleados")
 	private DataSource lserranoPool;
@@ -37,6 +38,7 @@ public class ControladorEmpleados extends HttpServlet {
 		
 		try {
 			modeloEmpleados = new ModeloEmpleados(lserranoPool);
+			readImp = new ReadImp(lserranoPool);
 		}catch(Exception e){
 			
 			throw new ServletException(e);
@@ -66,6 +68,14 @@ public class ControladorEmpleados extends HttpServlet {
 		 */
 				
 		switch (accion) {
+		case "detalles":
+			try {
+				leerRegistro(request, response);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			break;
 		case "listar":
 			obtenerEmpleados(request, response);
 			break;
@@ -101,6 +111,25 @@ public class ControladorEmpleados extends HttpServlet {
 		
 	}
 	
+	private void leerRegistro(HttpServletRequest request, HttpServletResponse response) throws Exception, IOException {
+		// TODO Auto-generated method stub
+		String idCard = request.getParameter("idCard");
+		
+		
+		// Enviar los datos obtenidos de la url(id_card) al Modelo
+		Empleados unEmpleado = readImp.detalleEmpleado(idCard);
+		
+		// Colocar el atributo correspondiente al id_card
+		request.setAttribute("DETALLE_EMPLEADO", unEmpleado);
+		
+		// Enviar Empleado al Formulario de editar
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/detalle_empleados.jsp");
+		
+		dispatcher.forward(request, response);
+		
+	}
+
+
 	private void eliminarEmpleado(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// Metodo para recibir la peticion de eliminar
 		
